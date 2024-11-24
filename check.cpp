@@ -38,6 +38,14 @@ while (true) {
     }
 }
 bool exist_date(int d, int m, int y) {
+    if(d > 31 || d < 0) {
+        cout << "Incorrect day of date. Please enter a number from 1 to 31. " << endl;
+        return false;
+    }
+    if(m > 12 || m <= 0) {
+        cout << "Incorrect month of date. Please enter a number from 1 to 12. " << endl;
+        return false;
+    }
     if((m == 4 || m == 6 || m == 9 || m == 11) && d > 30) {
         return false;
     }

@@ -5,7 +5,7 @@ Note::Note(): name(""), phone_number(0) {
     cout << "Constructor called without parameters for Note class\n";
 }
 
-Note::Note(const string& name, int num, const int bd[3]): name(name), phone_number(num) {
+Note::Note(const string& name, double num, const int bd[3]): name(name), phone_number(num) {
     for (int i = 0; i < 3; ++i) {
         date_of_birth[i] = bd[i];
     }
@@ -19,9 +19,7 @@ Note::Note(const Note& other): name(other.name), phone_number(other.phone_number
     cout << "The copy constructor for the Note class has been called " << endl;
 }
 
-Note::~Note() {
-    cout << "The destructor for the Note class has been called" << endl;
-}
+Note::~Note() {cout << "The destructor for the Note class has been called" << endl;}
 
 string Note::get_name() {
     return name;
@@ -35,7 +33,7 @@ int Note::get_number(){
     return phone_number;
 }
 
-void Note::set_number(int& n) {
+void Note::set_number(double& n) {
     phone_number = n;
 }
 
@@ -45,15 +43,14 @@ void Note::set_date(int bd[3]) {
     }
 }
 
-string Note::get_date(){
-    return to_string(date_of_birth[0]) + "." +
-           to_string(date_of_birth[1]) + "." +
-           to_string(date_of_birth[2]);
+int* Note::get_date(){
+    return date_of_birth;
 }
 
-void Note::display_Note() {
+void Note::display_note() {
+    cout << fixed << setprecision(0);
     cout << "Name: " << name << "\nPhone: " << phone_number << endl;
-    cout << "\nBirthday: ";
+    cout << "Birthday: ";
     for (int i = 0; i < 3; i++) {
         if (date_of_birth[i] < 10)
             cout << '0' << date_of_birth[i] << '.';
@@ -61,13 +58,13 @@ void Note::display_Note() {
             cout << date_of_birth[i] << '.';
     }
 }
-void Note::edit_Note() {
+void Note::edit_note() {
     string new_name;
-    int new_number;
+    double new_number;
     int new_date_of_birth[3];
 
     cout << "Enter new name: ";
-    cin >> new_name;
+    getline(cin, new_name);
     set_name(new_name);
 
     cout << "Enter new phone number: ";
@@ -84,4 +81,31 @@ void Note::edit_Note() {
 
     set_date(new_date_of_birth);
     cout << "Note edited successfully." << endl;
+}
+
+ostream& operator<<(ostream& os, Note N) {
+    os << fixed << setprecision(0);
+    os << "Name: " << N.name << "\nPhone: " << N.phone_number << endl;
+    cout << "Birthday: ";
+    for (int i = 0; i < 3; i++) {
+        if (N.date_of_birth[i] < 10)
+            os << '0' << N.date_of_birth[i] << '.';
+        else
+            os << N.date_of_birth[i] << '.';
+    }
+    return os;
+}
+istream& operator>>(istream& is, Note& N) {
+    cout << "Enter the name: ";
+    getline(is, N.name);
+    cout << "Enter the phone number: ";
+    is >> N.phone_number;
+    cout << "Enter the day of birth (DD): ";
+    is >> N.date_of_birth[0];
+    cout << "Enter the month of birth (MM): ";
+    is >> N.date_of_birth[1];
+    cout << "Enter the year of birth (YYYY): ";
+    is >> N.date_of_birth[2];
+    check_date(N.date_of_birth[0], N.date_of_birth[1], N.date_of_birth[2]);
+    return is;
 }
