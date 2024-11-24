@@ -40,7 +40,7 @@ int first_program() {
                 cout << "Enter the year of birth (YYYY): ";
                 date_of_birth[2] = check_input();
                 check_date(date_of_birth[0], date_of_birth[1], date_of_birth[2]);
-                cout << "Enter the index, куда вставить поезд: ";
+                cout << "Enter the index, where to insert the note ";
                 index = check_input();
 
                 Note* new_note = new Note(name, number, date_of_birth);
@@ -89,7 +89,8 @@ int first_program() {
             }
             case 6: {
                 cout << "Enter the phone number to search for: ";
-                int number = check_input();
+                double number;
+                cin >> number;
                 notes.search_note(number);
                 break;
             }
@@ -112,7 +113,7 @@ int second_program() {
         int choice;
         cout << "Select source (1 - string, 2 - file): ";
         if (!(cin >> choice)) {
-            throw invalid_argument("Error: некорректный ввод выбора источника.");
+            throw invalid_argument("Error: incorrect input of the source selection.");
         }
         if (choice == 1) {
             cin.ignore();
@@ -121,7 +122,7 @@ int second_program() {
             cin.getline(text, sizeof(text));
 
             if (cin.fail()) {
-                throw overflow_error("Error: превышена максимальная длина текста.");
+                throw overflow_error("Error: the maximum text length has been exceeded.");
             }
 
             SentenceFilter filter(text, true);
@@ -132,13 +133,13 @@ int second_program() {
             cin >> filename;
             ifstream file(filename);
             if (!file) {
-                throw runtime_error("Error: файл не найден или не может быть открыт.");
+                throw runtime_error("Error: the file was not found or could not be opened.");
             }
             file.close();
             SentenceFilter filter(filename);
             filter.result();
         } else {
-            throw out_of_range("Error: выбран несуществующий источник.");
+            throw out_of_range("Error: a non-existent source has been selected.");
         }
     }
     catch (const invalid_argument& e) {
@@ -172,6 +173,7 @@ int main() {
         cout << "1. Standard streams" << endl;
         cout << "2. File and string streams" << endl;
         cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
         choice = check_input();
 
         switch (choice) {

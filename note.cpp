@@ -57,30 +57,54 @@ void Note::display_note() {
         else
             cout << date_of_birth[i] << '.';
     }
+    cout << "\n";
 }
 void Note::edit_note() {
+    int choice;
     string new_name;
     double new_number;
     int new_date_of_birth[3];
 
-    cout << "Enter new name: ";
-    getline(cin, new_name);
-    set_name(new_name);
+    cout << "Select which data you want to change" << endl;
+    cout << "1. The name"<< endl;
+    cout << "2. The phone number"<< endl;
+    cout << "3. The date of birth"<< endl;
+    cout << "0. Exit" << endl;
+    choice = check_input();
 
-    cout << "Enter new phone number: ";
-    cin >> new_number;
-    set_number(new_number);
+    switch (choice) {
+        case 1: {
+            cout << "Enter new name: ";
+            getline(cin, new_name);
+            set_name(new_name);
+            break;
+        }
+        case 2: {
+            cout << "Enter new phone number: ";
+            cin >> new_number;
+            set_number(new_number);
+            break;
+        }
+        case 3: {
+            cout << "Enter the day of birth (DD): ";
+            new_date_of_birth[0] = check_date_day();
+            cout << "Enter the month of birth (MM): ";
+            new_date_of_birth[1] = check_date_month();
+            cout << "Enter the year of birth (YYYY): ";
+            new_date_of_birth[2] = check_input();
+            check_date(new_date_of_birth[0], new_date_of_birth[1], new_date_of_birth[2]);
+            set_date(new_date_of_birth);
+            break;
+        }
+        case 0: {
+            cout << "Exit from editing" << endl;
+            break;
+        }  
+        default:
+            cout << "Incorrect choice. Please try again." << endl;
+            break;
 
-    cout << "Enter the day of birth (DD): ";
-    new_date_of_birth[0] = check_date_day();
-    cout << "Enter the month of birth (MM): ";
-    new_date_of_birth[1] = check_date_month();
-    cout << "Enter the year of birth (YYYY): ";
-    new_date_of_birth[2] = check_input();
-    check_date(new_date_of_birth[0], new_date_of_birth[1], new_date_of_birth[2]);
-
-    set_date(new_date_of_birth);
-    cout << "Note edited successfully." << endl;
+        }
 }
 
 ostream& operator<<(ostream& os, Note N) {

@@ -136,6 +136,7 @@ void Container::search_note(const double number) {
         }
         temp = temp->next;
     }
+    cout << fixed << setprecision(0);
     cout << "The person with the phone number " << number << " not found." << endl;
 }
 
